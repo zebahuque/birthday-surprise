@@ -8,7 +8,21 @@
 </head>
 <body>
     <div class="container">
-        <a href="surprise.html" class="button">open for a surprise</a>
+        <!-- keep link semantics, but add an id so we can mark that the user clicked -->
+        <a href="surprise.html" class="button" id="openBtn">open for a surprise</a>
     </div>
+
+    <script>
+    // When the user clicks the button we set a flag so the next page knows
+    // the music should start. This records the user's gesture.
+    document.getElementById('openBtn').addEventListener('click', function () {
+        try {
+            sessionStorage.setItem('playMusicOnLoad', '1');
+        } catch (e) {
+            // ignore storage errors
+        }
+        // Allow the normal navigation to proceed.
+    });
+    </script>
 </body>
 </html>
