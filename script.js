@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- Music playback handling ---
     // Sample public MP3 you can replace later. If you'll add a local file later,
     // change this string to e.g. 'music/happy-birthday.mp3'.
-    const MUSIC_SRC = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
+    const MUSIC_SRC = 'hbdMusic.mp3';
 
     // Create audio element (we do it in JS so we can attempt .play() programmatically)
     const audio = new Audio(MUSIC_SRC);
