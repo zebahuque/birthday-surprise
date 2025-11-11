@@ -13,25 +13,22 @@ document.addEventListener('DOMContentLoaded', function() {
     function showPlayOverlay() {
         const overlay = document.createElement('div');
         overlay.style.position = 'fixed';
-        overlay.style.left = 0;
-        overlay.style.top = 0;
-        overlay.style.right = 0;
-        overlay.style.bottom = 0;
-        overlay.style.display = 'flex';
-        overlay.style.alignItems = 'center';
-        overlay.style.justifyContent = 'center';
-        overlay.style.background = 'rgba(0,0,0,0.6)';
+        overlay.style.left = '50%';
+        overlay.style.bottom = '20px';
+        overlay.style.transform = 'translateX(-50%)';
         overlay.style.zIndex = 9999;
+        overlay.style.background = 'transparent';
 
         const btn = document.createElement('button');
-        btn.textContent = 'Click to play music';
-        btn.style.padding = '16px 24px';
-        btn.style.fontSize = '18px';
-        btn.style.borderRadius = '8px';
+        btn.textContent = '▶️ Play Music';
+        btn.style.padding = '12px 20px';
+        btn.style.fontSize = '16px';
+        btn.style.borderRadius = '30px';
         btn.style.border = 'none';
         btn.style.cursor = 'pointer';
         btn.style.background = '#ff80ab';
         btn.style.color = '#fff';
+        btn.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
 
         btn.addEventListener('click', function () {
             audio.play().catch(() => {

@@ -101,7 +101,7 @@ h1 {
 /* Keyframes: first scale huge down to normal (0-65%), then do a 360 spin (65-100%) */
 @keyframes introSpin {
   0% {
-    transform: scale(12) rotate(0deg);
+    transform: scale(3) rotate(0deg);
   }
   65% {
     transform: scale(1) rotate(0deg);
