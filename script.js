@@ -1,26 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const bouquet = document.getElementById('bouquet');
-
-    const canterburyBells = `
-          /\
-         /  \
-        /    \
-       /      \
-      /        \
-     (          )
-      \        /
-       \      /
-        \    /
-         \  /
-          \/
-          ||
-          ||
-          ||
-          ||
-    `;
-
-    bouquet.textContent = canterburyBells;
-
     // --- Music playback handling ---
     // Sample public MP3 you can replace later. If you'll add a local file later,
     // change this string to e.g. 'music/happy-birthday.mp3'.
