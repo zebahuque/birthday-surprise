@@ -1,27 +1,26 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Special Surprise!</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Special Surprise!</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <a href="surprise.html" class="button" id="openBtn">hey pookie, click me</a>
-    </div>
+  <div class="container">
+    <a href="surprise.html" class="button" id="openBtn" aria-label="Open surprise">hey pookie, click me</a>
+  </div>
 
-    <script>
-    // When the user clicks the button we set a flag so the next page knows
-    // the music should start. This records the user's gesture.
+  <script>
+    // Record the user's gesture so audio can play on the next page
     document.getElementById('openBtn').addEventListener('click', function () {
-        try {
-            sessionStorage.setItem('playMusicOnLoad', '1');
-        } catch (e) {
-            // ignore storage errors
-        }
-        // Allow the normal navigation to proceed.
+      try {
+        sessionStorage.setItem('playMusicOnLoad', '1');
+      } catch (e) {
+        // ignore storage errors
+      }
+      // normal navigation proceeds
     });
-    </script>
+  </script>
 </body>
 </html>

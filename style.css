@@ -1,44 +1,136 @@
+/* Responsive base + reset */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+}
+
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #fce4ec;
-    font-family: 'Courier New', Courier, monospace;
-    color: #333;
-    text-align: center;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #fce4ec;
+  font-family: 'Courier New', Courier, monospace;
+  color: #333;
+  text-align: center;
+  padding: 2vmin;
 }
 
+/* Container is fluid and constrained for large screens */
 .container {
-    max-width: 600px;
-    padding: 20px;
+  width: min(92vw, 800px);
+  padding: clamp(12px, 3vw, 36px);
 }
 
+/* Buttons scale with screen size */
 .button {
-    display: inline-block;
-    padding: 15px 30px;
-    background-color: #ff80ab;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    font-size: 1.2em;
-    transition: background-color 0.3s;
+  display: inline-block;
+  padding: clamp(10px, 2.5vw, 18px) clamp(16px, 5vw, 36px);
+  background-color: #ff80ab;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: clamp(1rem, 3.2vw, 1.4rem);
+  transition: background-color 0.25s ease, transform 0.12s ease;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
 }
 
-.button:hover {
-    background-color: #ff4081;
-}
+.button:active { transform: translateY(1px); }
+.button:hover { background-color: #ff4081; }
 
+/* Headings */
 h1 {
-    font-family: 'Arial', sans-serif;
-    font-size: 3em;
-    color: #ff4081;
+  font-family: 'Arial', sans-serif;
+  font-size: clamp(1.6rem, 5.5vw, 3.5rem);
+  color: #ff4081;
+  margin: 0;
 }
 
+/* Bouquet text */
 #bouquet {
-    margin-top: 50px;
-    opacity: 1;
-    font-size: 16px;
-    line-height: 1.2;
-    color: #4caf50;
+  margin-top: 2.5rem;
+  opacity: 1;
+  font-size: clamp(0.9rem, 2.6vw, 1.1rem);
+  line-height: 1.4;
+  color: #4caf50;
+}
+
+/* ---------- Surprise screen styles & animations ---------- */
+
+/* Centering for the surprise screen */
+.surprise-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4vmin;
+  background: linear-gradient(180deg, #fff0f6 0%, #ffeef8 50%, #fff 100%);
+}
+
+/* The message container */
+.message {
+  display: inline-block;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  transform-origin: center center;
+  /* Base size responsive */
+  font-size: clamp(2rem, 12vw, 10rem);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* Each character wrapped in a span so we can animate individually */
+.message span {
+  display: inline-block;
+  will-change: color, transform;
+  /* per-letter delay variable set by JS: --i */
+  animation: colorCycle 3s linear infinite;
+  animation-delay: calc(var(--i, 0) * 0.12s);
+}
+
+/* Intro animation for the entire message (runs once on page entry) */
+.message.play {
+  animation: introSpin 2.6s ease both;
+}
+
+/* Keyframes: first scale huge down to normal (0-65%), then do a 360 spin (65-100%) */
+@keyframes introSpin {
+  0% {
+    transform: scale(12) rotate(0deg);
+  }
+  65% {
+    transform: scale(1) rotate(0deg);
+  }
+  100% {
+    transform: scale(1) rotate(360deg);
+  }
+}
+
+/* Per-letter color cycle — picks several vibrant colors */
+@keyframes colorCycle {
+  0%   { color: #ff4081; }
+  20%  { color: #ffd54f; }
+  40%  { color: #8bc34a; }
+  60%  { color: #00bcd4; }
+  80%  { color: #7e57c2; }
+  100% { color: #ff4081; }
+}
+
+/* Make sure text doesn't wrap awkwardly on narrow screens */
+.message { word-break: break-word; white-space: pre-wrap; }
+
+/* Accessibility: respect reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .message.play, .message span { animation: none; transform: none !important; }
+}
+
+/* Small-screen tweaks */
+@media (max-width: 420px) {
+  .message { font-size: clamp(1.2rem, 16vw, 6rem); }
+  .container { padding: 6vmin; }
 }
