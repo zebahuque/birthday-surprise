@@ -9,14 +9,16 @@
 <body>
   <main class="surprise-screen" role="main" aria-live="polite">
     <!-- We'll inject per-letter spans for animation with JS -->
-    <h1 class="message" id="birthdayMessage">HAPPY BIRTHDAY, BINH</h1>
+    <h1 class="message" id="birthdayMessage">happy birthday,</h1>
+    <h1 class="message" id="birthdayMessageName">binh!</h1>
+
   </main>
 
   <script src="script.js"></script>
   <script>
     // Split the heading into spans so each letter can animate separately
     (function () {
-      const el = document.getElementById('birthdayMessage');
+      const el = document.getElementsByClassName('surprise-screen');
       const text = el.textContent || '';
       el.innerHTML = ''; // clear
 
