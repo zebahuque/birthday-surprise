@@ -1,7 +1,5 @@
 canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
+  display: block;
 }
 p {
   margin: 0 0;

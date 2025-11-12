@@ -1,5 +1,5 @@
 let w = (c.width = window.innerWidth),
-  h = (c.height = window.innerHeight),
+  h = (c.height = window.innerHeight * 0.8),
   ctx = c.getContext("2d"),
   hw = w / 2;
 (hh = h / 2),
