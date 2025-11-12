@@ -5,14 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Surprise</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="happy birthday.css">
 </head>
 <body>
   <main class="surprise-screen" role="main" aria-live="polite">
+    <canvas id="c"></canvas>
     <!-- We'll inject per-letter spans for animation with JS -->
     <h1 class="message" id="birthdayMessage">happy birthday, binh!</h1>
+    <h2>Lorem ipsum</h2>
   </main>
 
   <script src="script.js"></script>
+  <script src="happy birthday.js"></script>
   <script>
     // Split the heading into spans so each letter can animate separately
     (function () {
