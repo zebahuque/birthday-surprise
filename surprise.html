@@ -7,49 +7,84 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+<div id="sparkle-container">
+  <div class="sparkle" style="left: 10%; top: 15%; --sparkle-color: hsl(320, 80%, 60%);"></div>
+  <div class="sparkle" style="left: 85%; top: 5%; --sparkle-color: hsl(200, 80%, 55%);"></div>
+  <div class="sparkle" style="left: 45%; top: 30%; --sparkle-color: hsl(45, 90%, 55%);"></div>
+  <div class="sparkle" style="left: 20%; top: 60%; --sparkle-color: hsl(280, 70%, 55%);"></div>
+  <div class="sparkle" style="left: 70%; top: 80%; --sparkle-color: hsl(160, 70%, 45%);"></div>
+  <div class="sparkle" style="left: 5%; top: 90%; --sparkle-color: hsl(320, 80%, 60%);"></div>
+  <div class="sparkle" style="left: 95%; top: 70%; --sparkle-color: hsl(45, 90%, 55%);"></div>
+  <div class="sparkle" style="left: 35%; top: 45%; --sparkle-color: hsl(200, 80%, 55%);"></div>
+  <div class="sparkle" style="left: 65%; top: 10%; --sparkle-color: hsl(160, 70%, 45%);"></div>
+  <div class="sparkle" style="left: 50%; top: 95%; --sparkle-color: hsl(280, 70%, 55%);"></div>
+</div>
+
   <main class="surprise-screen" role="main" aria-live="polite">
     <!-- We'll inject per-letter spans for animation with JS -->
-    <h1 class="message" id="birthdayMessage">happy birthday, binh!</h1>
-    <br>
-    <h2 class="paragraph" id="followUp"> on this day...
-      <br>
-      <br>Vasili III of Russia, the Grand Prince of Moscow, was found dead (1533)
-      <br>
-      <br>Honda Tadakatsu, a Japanese general, was found dead (1610)
-      <br>
-      <br>Neon lights were first publicly displayed at the Paris Auto Show (1910)
-      <br>
-      <br>The current flag of Singapore is adopted (1959)
-      <br>
-      <br>Nureddin Al-Atassi, the president of Syria, was found dead (1992)
-      <br>
-      <br>Neil Papworth send the worlds first text message from a computer to a phone. It said “Merry Christmas.” (1992)
-      <br>
-      <br>The start of international day of persons with disabilities (1992)
-      <br>
-      <br>Sony released its first PlayStation (1994)
-      <br>
-      <br>Eevi Huttunen, the Finnish speed skater, was found dead (2015)
-      <br>
-      <br>Martial law was declared in South Korea (2024)
-    </h2>
+    <!--<h1 class="message" id="birthdayMessage">happy birthday, binh!</h1>-->
+    <h1 class="message" id="birthdayMessage">happy <span class="no-split">birthday,</span> <span class="no-split">binh!</span></h1>
+
+    <h2 class="paragraph" id="followUp">on this day...</h2>
+
+    <div class="facts-list">
+      <p>Vasili III of Russia, the Grand Prince of Moscow, was found dead (1533)</p>
+      <p>Honda Tadakatsu, a Japanese general, was found dead (1610)</p>
+      <p>Neon lights were first publicly displayed at the Paris Auto Show (1910)</p>
+      <p>The current flag of Singapore is adopted (1959)</p>
+      <p>Nureddin Al-Atassi, the president of Syria, was found dead (1992)</p>
+      <p>Neil Papworth sent the worlds first text message from a computer to a phone. It said “Merry Christmas.” (1992)</p>
+      <p>The start of international day of persons with disabilities (1992)</p>
+      <p>Sony released its first PlayStation (1994)</p>
+      <p>Eevi Huttunen, the Finnish speed skater, was found dead (2015)</p>
+      <p>Martial law was declared in South Korea (2024)</p>
+    </div>
+
+    <h2 class="paragraph"> BUT... </h2>
+
+    <p class="final-message"> by far, december 3rd, 1999, is the best december 3rd because a certain freakazoid (YOU) was born <3</p>
   </main>
 
-  <script src="script.js"></script>
   <script>
     // Split the heading into spans so each letter can animate separately
     (function () {
       const el = document.getElementById('birthdayMessage');
-      const text = el.textContent || '';
+
+      // *** CHANGE START ***
+      // We will iterate over the existing content and replace it in place.
+      const nodes = Array.from(el.childNodes);
       el.innerHTML = ''; // clear
 
-      // Create a span for each character including spaces (use &nbsp; for visible spaces)
-      Array.from(text).forEach((ch, idx) => {
-        const span = document.createElement('span');
-        span.setAttribute('aria-hidden', 'true');
-        span.style.setProperty('--i', idx);
-        span.textContent = ch === ' ' ? '\u00A0' : ch;
-        el.appendChild(span);
+      nodes.forEach(node => {
+        // If it's a Text Node (the spaces, "happy", ", binh!")
+        if (node.nodeType === 3) {
+          Array.from(node.textContent).forEach((ch, idx) => {
+            const span = document.createElement('span');
+            span.setAttribute('aria-hidden', 'true');
+            // This --i variable will be calculated by the browser based on
+            // the order it is appended, so the delay is correct.
+            span.style.setProperty('--i', el.children.length);
+            span.textContent = ch === ' ' ? '\u00A0' : ch;
+            el.appendChild(span);
+          });
+        }
+        // If it's the <span> containing "birthday" (nodeType 1 = Element)
+        else if (node.nodeType === 1 && node.classList.contains('no-split')) {
+          // Re-insert the <span> as a container for all the letter spans
+          const unbreakableSpan = document.createElement('span');
+          unbreakableSpan.classList.add('no-split');
+
+          Array.from(node.textContent).forEach((ch) => {
+            const span = document.createElement('span');
+            span.setAttribute('aria-hidden', 'true');
+            // Use the current total count of spans as the --i value
+            span.style.setProperty('--i', el.children.length);
+            span.textContent = ch;
+            unbreakableSpan.appendChild(span);
+          });
+          el.appendChild(unbreakableSpan);
+        }
       });
 
       // Trigger the intro animation when the page loads IF the user came from index (gesture recorded),
