@@ -50,25 +50,21 @@ h1 {
   margin: 0;
 }
 
-/* Bouquet text */
-#bouquet {
-  margin-top: 2.5rem;
-  opacity: 1;
-  font-size: clamp(0.9rem, 2.6vw, 1.1rem);
-  line-height: 1.4;
-  color: #4caf50;
-}
-
 /* ---------- Surprise screen styles & animations ---------- */
 
 /* Centering for the surprise screen */
 .surprise-screen {
   min-height: 100vh;
   display: flex;
+  /* Keep this to center content horizontally */
   align-items: center;
   justify-content: center;
+  /* Ensure padding is minimal at the top so our margin can take effect */
   padding: 4vmin;
   background: linear-gradient(180deg, #fff0f6 0%, #ffeef8 50%, #fff 100%);
+  flex-direction: column;
+  position: relative; /* Necessary for z-index to work */
+  z-index: 10;      /* Higher than the sparkle's z-index: 0 */
 }
 
 /* The message container */
@@ -81,7 +77,13 @@ h1 {
   font-size: clamp(2rem, 12vw, 10rem);
   font-weight: 800;
   letter-spacing: 0.02em;
-  text-transform: uppercase;
+  margin-top: 80vh; /* Adjust this value (10vh = 10% of the viewport height) */
+}
+
+/* Add this new block to your style.css */
+.message .no-split {
+  /* This prevents the entire word/phrase from being split */
+  white-space: nowrap;
 }
 
 /* Each character wrapped in a span so we can animate individually */
@@ -98,10 +100,83 @@ h1 {
   animation: introSpin 2.6s ease both;
 }
 
+.paragraph1 {
+  display: inline-block;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  transform-origin: center center;
+  /* Base size responsive */
+  font-size: clamp(1rem, 1vw, 1rem);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #c2185b
+}
+
+.paragraph {
+  display: inline-block;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  transform-origin: center center;
+  /* Change the font size here to be larger than body text but smaller than the h1 */
+  font-size: clamp(1.2rem, 4vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #c2185b;
+  margin-top: 0.5rem; /* Add a small top margin */
+}
+
+/* --- New styles for the list of facts --- */
+.facts-list {
+  /* Set a max width so the list doesn't get too wide on large screens */
+  max-width: 500px;
+  /* Add some margin above the whole list to separate it from "on this day..." */
+  margin-top: 1.5rem;
+  /* Center the block itself within the flex container */
+  text-align: left; /* Align text left inside the block for readability */
+  color: #c2185b;
+}
+
+.facts-list p {
+  /* Inherit the body font/color by default (or set a new one) */
+  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+  line-height: 1.5;
+  /* Add spacing below each fact */
+  margin: 0.5rem 0;
+  /* Add a bullet before each fact */
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.facts-list p::before {
+  content: "💗";
+  position: absolute;
+  left: 0;
+  color: #ff4081;
+}
+
+.final-message {
+  /* Apply wide constraints and center it */
+  max-width: 600px;
+  margin-top: 1rem; /* Space it below the "BUT..." heading */
+  padding: 0 2vmin;
+
+  /* Make it stand out */
+  font-size: clamp(1.1rem, 3.5vw, 1.8rem);
+  font-weight: bold;
+  line-height: 1.4;
+
+  /* Use a vibrant theme color */
+  color: #ff4081;
+
+  /* Add a gentle separation border */
+  border-top: 2px dashed #ff80ab;
+  padding-top: 1rem;
+}
+
 /* Keyframes: first scale huge down to normal (0-65%), then do a 360 spin (65-100%) */
 @keyframes introSpin {
   0% {
-    transform: scale(12) rotate(0deg);
+    transform: scale(3) rotate(0deg);
   }
   65% {
     transform: scale(1) rotate(0deg);
@@ -129,8 +204,73 @@ h1 {
   .message.play, .message span { animation: none; transform: none !important; }
 }
 
-/* Small-screen tweaks */
+/* screen tweaks */
 @media (max-width: 420px) {
   .message { font-size: clamp(1.2rem, 16vw, 6rem); }
   .container { padding: 6vmin; }
 }
+/* ---------- SPARKLE STYLES ---------- */
+
+#sparkle-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 100;
+}
+
+.sparkle {
+  position: absolute;
+  background-color: var(--sparkle-color, #ff4081);
+  border-radius: 50%;
+
+  min-width: 4px;
+  min-height: 4px;
+  opacity: 0.8;
+
+  /* White Glow*/
+  box-shadow: 0 0 8px 3px rgba(255, 255, 255, 0.6),
+              0 0 15px 5px var(--sparkle-color, #ff4081);
+
+  will-change: transform;
+    transform: scale(1);
+
+    /* Apply only the drift animation */
+    animation-name: drift;
+    animation-duration: 40s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite; /* Removed 'alternate' */
+}
+
+/* Keyframes adjusted for a proper fade-in/fade-out pulse */
+@keyframes sparkle-pulse {
+  0% { opacity: 0; transform: scale(0.2); }
+  20% { opacity: 1; transform: scale(1); } /* Fully visible and normal size */
+  80% { opacity: 0; transform: scale(0.8); } /* Fade out slightly */
+  100% { opacity: 0; transform: scale(0.2); } /* Fully faded out and small, ready for restart */
+}
+
+@keyframes drift {
+  0% { transform: translate(0px, 0px) rotate(0deg); }
+  25% { transform: translate(30px, -20px) rotate(5deg); }
+  50% { transform: translate(-40px, 30px) rotate(-5deg); }
+  75% { transform: translate(20px, 40px) rotate(2deg); }
+  100% { transform: translate(0px, 0px) rotate(0deg); }
+}
+
+/* Apply increasing delay to each sparkle for staggered drift effect */
+.sparkle:nth-child(1) { animation-delay: 0.5s; }
+.sparkle:nth-child(2) { animation-delay: 10s; }
+.sparkle:nth-child(3) { animation-delay: 2s; }
+.sparkle:nth-child(4) { animation-delay: 15s; }
+.sparkle:nth-child(5) { animation-delay: 25s; }
+.sparkle:nth-child(6) { animation-delay: 5s; }
+.sparkle:nth-child(7) { animation-delay: 18s; }
+.sparkle:nth-child(8) { animation-delay: 8s; }
+.sparkle:nth-child(9) { animation-delay: 22s; }
+.sparkle:nth-child(10) { animation-delay: 3s; }
+
+/* The OPTIONAL variation block is fine as is, since we removed the static transform from it. */
