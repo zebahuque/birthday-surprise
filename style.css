@@ -77,7 +77,7 @@ h1 {
   font-size: clamp(2rem, 12vw, 10rem);
   font-weight: 800;
   letter-spacing: 0.02em;
-  margin-top: 35vh; /* Adjust this value (10vh = 10% of the viewport height) */
+  margin-top: 80vh; /* Adjust this value (10vh = 10% of the viewport height) */
 }
 
 /* Add this new block to your style.css */
