@@ -69,6 +69,7 @@ h1 {
   justify-content: center;
   padding: 4vmin;
   background: linear-gradient(180deg, #fff0f6 0%, #ffeef8 50%, #fff 100%);
+  flex-direction: column;
 }
 
 /* The message container */
@@ -81,7 +82,6 @@ h1 {
   font-size: clamp(2rem, 12vw, 10rem);
   font-weight: 800;
   letter-spacing: 0.02em;
-  text-transform: uppercase;
 }
 
 /* Each character wrapped in a span so we can animate individually */
@@ -96,6 +96,17 @@ h1 {
 /* Intro animation for the entire message (runs once on page entry) */
 .message.play {
   animation: introSpin 2.6s ease both;
+}
+
+.paragraph {
+  display: inline-block;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  transform-origin: center center;
+  /* Base size responsive */
+  font-size: clamp(1rem, 1vw, 1rem);
+  font-weight: 800;
+  letter-spacing: 0.02em;
 }
 
 /* Keyframes: first scale huge down to normal (0-65%), then do a 360 spin (65-100%) */
